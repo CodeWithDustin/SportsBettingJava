@@ -7,13 +7,11 @@ public class SportsBettingSystem {
     private static UserDAO userDAO = new UserDAO();
     private static AccountDAO accountDAO = new AccountDAO();
     private static BetDAO betDAO = new BetDAO();
-    private static Random random = new Random(); // Random generator for odds and results
-    private static User currentUser = null; // Track current user session
+    private static Random random = new Random();
+    private static User currentUser = null;
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Initial interaction loop
         while (true) {
             System.out.println("Welcome to the Sports Betting System!");
 
@@ -98,7 +96,6 @@ public class SportsBettingSystem {
     }
 
     private static void handleUserOperations(User user, Scanner scanner) {
-        // Example operations after login
         while (true) {
             System.out.println("Select an operation:");
             System.out.println("1. Place a random bet");
@@ -126,11 +123,11 @@ public class SportsBettingSystem {
                     break;
                 case 5:
                     deleteAccount(user);
-                    return; // Exit handleUserOperations loop after deleting account
+                    return;
                 case 6:
                     System.out.println("Logging out...");
-                    currentUser = null; // Clear current user session
-                    return; // Exit handleUserOperations loop after logging out
+                    currentUser = null;
+                    return;
                 default:
                     System.out.println("Invalid choice. Please enter a valid option.");
             }
@@ -144,7 +141,7 @@ public class SportsBettingSystem {
             String team = getRandomTeam(sport);
             double odds = getRandomOdds();
             boolean result = getRandomResult();
-            double amount = 10.0; // Example amount
+            double amount = 10.0;
 
             // Place the specific bet with randomly generated values
             betDAO.placeRandomBet(accountId);
@@ -183,11 +180,11 @@ public class SportsBettingSystem {
     }
 
     private static double getRandomOdds() {
-        return 1.5 + random.nextDouble() * 4.0; // Example odds
+        return 1.5 + random.nextDouble() * 4.0;
     }
 
     private static boolean getRandomResult() {
-        return random.nextBoolean(); // Example result
+        return random.nextBoolean();
     }
 
     private static void placeSpecificBet(User user, Scanner scanner) {
@@ -237,7 +234,7 @@ public class SportsBettingSystem {
             // Simulate the bet result (random win/loss)
             boolean result = getRandomResult();
 
-            // Calculate amount to bet (example: 10.0)
+            // Calculate amount to bet
             double amount = 10.0;
 
             // Place the specific bet with randomly generated values

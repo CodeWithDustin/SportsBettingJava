@@ -10,11 +10,11 @@ public class BetDAO {
         String team = getRandomTeam(sport);
         double odds = getRandomOdds();
         boolean result = getRandomResult();
-        double amount = 10.0; // Example bet amount
+        double amount = 10.0;
 
         // Calculate winnings and losses based on the result
         double winnings = result ? amount * odds : 0.0;
-        double losses = result ? 0.0 : getRandomLosses(); // Calculate random losses
+        double losses = result ? 0.0 : getRandomLosses();
 
         // Update account balance and record the bet
         String updateAccountSql = "UPDATE accounts SET balance = balance + ?, winnings = winnings + ?, losses = losses + ? WHERE id = ?";
@@ -91,7 +91,7 @@ public class BetDAO {
 
                 // Calculate winnings and losses based on the result
                 double winnings = result ? amount * odds : 0.0;
-                double losses = result ? 0.0 : getRandomLosses(); // Assuming you have a method to generate random losses
+                double losses = result ? 0.0 : getRandomLosses();
 
                 // Update account balance
                 updateStmt.setDouble(1, result ? winnings : -losses); // Add winnings or deduct amount (for losses)
@@ -111,7 +111,7 @@ public class BetDAO {
         } finally {
             if (conn != null) {
                 try {
-                    conn.setAutoCommit(true); // Restore auto-commit mode
+                    conn.setAutoCommit(true);
                     conn.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
