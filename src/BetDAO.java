@@ -69,16 +69,54 @@ public class BetDAO {
     public void placeSpecificBet(int accountId, String sport, String team, double amount, double odds, boolean result) throws SQLException {
         // Record the bet with user-specified parameters
         String sql = "INSERT INTO bets (account_id, sport, team, amount, type, odds, result) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try (Connection conn = Database.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, accountId);
-            pstmt.setString(2, sport);
-            pstmt.setString(3, team);
-            pstmt.setDouble(4, amount);
-            pstmt.setString(5, "specific");
-            pstmt.setDouble(6, odds);
-            pstmt.setBoolean(7, result);
-            pstmt.executeUpdate();
+        String updateAccountSql = "UPDATE accounts SET balance = balance + ?, winnings = winnings + ?, losses = losses + ? WHERE id = ?";
+
+        Connection conn = null;
+        try {
+            conn = Database.getConnection();
+            conn.setAutoCommit(false);
+
+            // Record the bet
+            try (PreparedStatement pstmt = conn.prepareStatement(sql);
+                 PreparedStatement updateStmt = conn.prepareStatement(updateAccountSql)) {
+
+                pstmt.setInt(1, accountId);
+                pstmt.setString(2, sport);
+                pstmt.setString(3, team);
+                pstmt.setDouble(4, amount);
+                pstmt.setString(5, "specific");
+                pstmt.setDouble(6, odds);
+                pstmt.setBoolean(7, result);
+                pstmt.executeUpdate();
+
+                // Calculate winnings and losses based on the result
+                double winnings = result ? amount * odds : 0.0;
+                double losses = result ? 0.0 : getRandomLosses(); // Assuming you have a method to generate random losses
+
+                // Update account balance
+                updateStmt.setDouble(1, result ? winnings : -losses); // Add winnings or deduct amount (for losses)
+                updateStmt.setDouble(2, result ? winnings : 0.0); // Add winnings only if result is true (won)
+                updateStmt.setDouble(3, result ? 0.0 : -losses); // Subtract losses only if result is false (lost)
+                updateStmt.setInt(4, accountId);
+                updateStmt.executeUpdate();
+
+                conn.commit();
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        } finally {
+            if (conn != null) {
+                try {
+                    conn.setAutoCommit(true); // Restore auto-commit mode
+                    conn.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

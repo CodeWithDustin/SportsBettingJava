@@ -167,13 +167,13 @@ public class SportsBettingSystem {
         String[] teams;
         switch (sport) {
             case "Football":
-                teams = new String[]{"Team A", "Team B", "Team C"};
+                teams = new String[]{"Michigan", "Texas", "Alabama"};
                 break;
             case "Soccer":
-                teams = new String[]{"Team X", "Team Y", "Team Z"};
+                teams = new String[]{"Real Madrid", "Manchester City", "Barcelona"};
                 break;
             case "Baseball":
-                teams = new String[]{"Team Alpha", "Team Beta", "Team Gamma"};
+                teams = new String[]{"New York Yankees", "Baltimore Orioles", "Boston Red Sox"};
                 break;
             default:
                 teams = new String[]{"Team 1", "Team 2", "Team 3"};
