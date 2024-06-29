@@ -1,50 +1,56 @@
 public class Account {
-    private User user;
+    private int id;
+    private int userId;
     private double balance;
     private double winnings;
     private double losses;
 
-    public Account(User user) {
-        this.user = user;
-        this.balance = 0;
-        this.winnings = 0;
-        this.losses = 0;
+    public Account(int id, int userId, double balance, double winnings, double losses) {
+        this.id = id;
+        this.userId = userId;
+        this.balance = balance;
+        this.winnings = winnings;
+        this.losses = losses;
     }
 
-    public User getUser() {
-        return user;
+    // Getters and setters
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public double getBalance() {
         return balance;
     }
 
-    public void deposit(double amount) {
-        this.balance += amount;
-    }
-
-    public boolean withdraw(double amount) {
-        if (amount > balance) {
-            return false;
-        }
-        this.balance -= amount;
-        return true;
-    }
-
-    public void addWinnings(double amount) {
-        this.winnings += amount;
-        this.balance += amount;
-    }
-
-    public void addLosses(double amount) {
-        this.losses += amount;
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public double getWinnings() {
         return winnings;
     }
 
+    public void setWinnings(double winnings) {
+        this.winnings = winnings;
+    }
+
     public double getLosses() {
         return losses;
+    }
+
+    public void setLosses(double losses) {
+        this.losses = losses;
     }
 }

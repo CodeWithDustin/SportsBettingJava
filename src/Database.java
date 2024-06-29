@@ -7,13 +7,15 @@ public class Database {
     private static final String USER = "postgres";
     private static final String PASSWORD = "Kkii88Lloo99!";
 
-    public static Connection connect() {
-        Connection conn = null;
+    static {
         try {
-            conn = DriverManager.getConnection(URL, USER, PASSWORD);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException("Failed to load PostgreSQL driver", e);
         }
-        return conn;
+    }
+
+    public static Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
